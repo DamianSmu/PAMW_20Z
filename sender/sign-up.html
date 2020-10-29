@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Paczkopol - cikawy system obsługi paczek">
+    <meta name="author" content="Damian Smugorzewski">
+    <link rel="icon" href="../img/favicon.ico">
+
+    <title>PaczkoPol | Rejestracja</title>
+
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/sticky-footer-navbar.css" rel="stylesheet">
+
+    <script src="../js/validation.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills float-right">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Strona główna <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Rejestracja</a>
+                </li>
+            </ul>
+        </nav>
+        <h3 class="text-muted">PaczkoPol</h3>
+    </div>
+
+    <form class="needs-validation was-validated" novalidate id="signnup_form">
+        <div class="form-group row">
+            <label for="firstname" class="col-4 col-form-label">Imię</label>
+            <div class="col-8">
+                <input id="firstname" name="firstname" type="text" class="form-control" required="required" pattern="[A-Z{ĄĆĘŁŃÓŚŹŻ}][a-z{ąćęłńóśźż}]+">
+                <div class="invalid-feedback">
+                    Wpisz poprawne imię
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="lastname" class="col-4 col-form-label">Nazwisko</label>
+            <div class="col-8">
+                <input id="lastname" name="lastname" type="text" class="form-control" required="required" pattern="[A-Z{ĄĆĘŁŃÓŚŹŻ}][a-z{ąćęłńóśźż}]+">
+                <div class="invalid-feedback">
+                    Wpisz poprawne nazwisko
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="password" class="col-4 col-form-label">Hasło</label>
+            <div class="col-8">
+                <input id="password" name="password" type="password" class="form-control" required="required" aria-describedby="passwordHelpBlock">
+                <small id="passwordHelpBlock" class="form-text text-muted">
+                    Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+                </small>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="password_repeat" class="col-4 col-form-label">Powtórz hasło</label>
+            <div class="col-8">
+                <input id="password_repeat" name="password_repeat" type="password" class="form-control" required="required">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-4">Płeć</label>
+            <div class="col-8">
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input name="sex" id="sex_0" type="radio" class="custom-control-input" value="M" required="required">
+                    <label for="sex_0" class="custom-control-label">Mężczyzna</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input name="sex" id="sex_1" type="radio" class="custom-control-input" value="F" required="required">
+                    <label for="sex_1" class="custom-control-label">Kobieta</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="username" class="col-4 col-form-label">Nazwa użytkownika</label>
+            <div class="col-8">
+                <input id="username" name="username" type="text" class="form-control" required="required">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="photo" class="col-4 col-form-label">Zdjęcie</label>
+            <div class="col-8">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="photo" required="required">
+                    <label class="custom-file-label" for="photo">Wybierz zdjęcie</label>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="form-group row">
+            <div class="offset-4 col-8">
+                <button name="submit" type="submit" class="btn btn-primary" id="submit_button" disabled="disabled">Zarejestruj!</button>
+            </div>
+        </div>
+    </form>
+
+    <footer class="footer">
+        <div class="row">
+            <div class="col-sm-5">
+                <p>© 2020 Damian Smugorzewski</p>
+            </div>
+            <div class="col-sm-5">
+                <a class="link" href="https://github.com">Repozytorium</a>
+            </div>
+        </div>
+    </footer>
+
+
+</div> <!-- /container -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
