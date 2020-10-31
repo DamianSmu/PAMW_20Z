@@ -6,7 +6,7 @@ port = int(os.environ.get("PORT", 5000))
 def index():
     return render_template('index.html')
 
-@app.route('/sender/sign-up.html')
+@app.route('/sender/sign-up')
 def signup():
     return render_template('sign-up.html')
 
