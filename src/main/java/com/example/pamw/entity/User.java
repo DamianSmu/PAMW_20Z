@@ -1,14 +1,17 @@
-package com.example.pamw;
+package com.example.pamw.entity;
 
+import com.example.pamw.security.RoleEnum;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @RedisHash("User")
-public class User implements Serializable
-{
+public class User implements Serializable {
 
     @Id
     private String id;
@@ -16,8 +19,10 @@ public class User implements Serializable
     private String firstName;
     @NotNull
     private String lastName;
+    @Indexed
     @NotNull
     private String username;
+    @Indexed
     @NotNull
     private String email;
     @NotNull
@@ -25,8 +30,9 @@ public class User implements Serializable
     @NotNull
     private String address;
 
-    public User(String id, String firstName, String lastName, String username, String email, String password, String address)
-    {
+    private Set<RoleEnum> roles = new HashSet<>();
+
+    public User(String id, String firstName, String lastName, String username, String email, String password, String address) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,73 +42,77 @@ public class User implements Serializable
         this.address = address;
     }
 
-    public String getId()
-    {
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    public User() {
+
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getFirstName()
-    {
+    public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName)
-    {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLastName()
-    {
+    public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName)
-    {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public String getUsername()
-    {
+    public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username)
-    {
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email)
-    {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password)
-    {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getAddress()
-    {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address)
-    {
+    public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Set<RoleEnum> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleEnum> roles) {
+        this.roles = roles;
     }
 }
