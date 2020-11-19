@@ -5,19 +5,25 @@ class HeaderComponent extends Component {
         super(props)
 
         this.state = {
-
         }
     }
 
     render() {
         return (
-            <div>
-                <header>
-                    <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-                        <div><a href="https://javaguides.net" className="navbar-brand">Employee Management App</a></div>
-                    </nav>
-                </header>
-            </div>
+            <header className="header clearfix">
+                <nav>
+                    <ul className="nav nav-pills float-right">
+                        <li className="nav-item">
+                            <a className="nav-link active" href="/">Strona główna
+                                </a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="/signup">Rejestracja</a>
+                        </li>
+                    </ul>
+                </nav>
+                <h3 className="text-muted">PaczkoPol</h3>
+            </header>
         )
     }
 }

@@ -88,7 +88,7 @@ public class AuthController {
         Set<RoleEnum> roles = new HashSet<>();
 
         if (strRoles == null) {
-            throw new RuntimeException("Error: Role is not found.");
+            roles.add(RoleEnum.USER);
         } else
         {
             strRoles.forEach(role -> {
