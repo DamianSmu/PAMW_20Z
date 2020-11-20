@@ -32,8 +32,7 @@ public class User implements Serializable {
 
     private Set<RoleEnum> roles = new HashSet<>();
 
-    public User(String id, String firstName, String lastName, String username, String email, String password, String address) {
-        this.id = id;
+    public User(String firstName, String lastName, String username, String email, String password, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;

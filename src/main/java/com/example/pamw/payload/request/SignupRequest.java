@@ -6,11 +6,20 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 public class SignupRequest {
+
+    @NotBlank
+    private String firstname;
+
+    @NotBlank
+    private String lastname;
+
+    @NotBlank
+    private String address;
+
     @NotBlank
     private String username;
 
     @NotBlank
-    @Email
     private String email;
 
     private Set<String> roles;
@@ -48,5 +57,29 @@ public class SignupRequest {
 
     public void setRole(Set<String> roles) {
         this.roles = roles;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

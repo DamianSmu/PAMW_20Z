@@ -13,12 +13,8 @@ class FooterComponent extends Component {
         return (
             <footer className="footer">
                 <div className="row">
-                    <div className="col-sm-5">
-                        <p>© 2020 Damian Smugorzewski</p>
-                    </div>
-                    <div className="col-sm-5">
-                        <a className="link" href="https://github.com/DamianSmu/PAMW_20Z">Repozytorium</a>
-                    </div>
+                    <p>© 2020 Damian Smugorzewski</p>
+                    <a className="link ml-auto" href="https://github.com/DamianSmu/PAMW_20Z">Repozytorium</a>
                 </div>
             </footer>
         )

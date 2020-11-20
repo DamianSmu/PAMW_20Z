@@ -1,31 +1,32 @@
 import React, { Component } from 'react'
+import { Nav, Navbar } from 'react-bootstrap'
+import { withRouter } from 'react-router-dom';
 
 class HeaderComponent extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
+        
         }
     }
 
     render() {
         return (
-            <header className="header clearfix">
-                <nav>
-                    <ul className="nav nav-pills float-right">
-                        <li className="nav-item">
-                            <a className="nav-link active" href="/">Strona główna
-                                </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/signup">Rejestracja</a>
-                        </li>
-                    </ul>
-                </nav>
-                <h3 className="text-muted">PaczkoPol</h3>
+            <header>
+                <Navbar bg="light" expand="lg">
+                    <Navbar.Brand href='/'>PaczkoPol</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                    <Navbar.Collapse id="basic-navbar-nav" >
+                        <Nav activeKey={this.props.location.pathname} className="ml-auto">
+                            <Nav.Link href="/signup">Zarejestruj</Nav.Link>
+                            <Nav.Link href="/login">Zaloguj</Nav.Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Navbar>
             </header>
         )
     }
 }
 
-export default HeaderComponent
+export default withRouter(HeaderComponent)

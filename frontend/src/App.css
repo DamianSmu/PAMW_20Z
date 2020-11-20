@@ -6,19 +6,24 @@ body {
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
+header,
 .footer {
   padding-right: 1rem;
   padding-left: 1rem;
 }
 
+.content{
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+}
+
 /* Custom page header */
-.header {
+header {
   padding-bottom: 1rem;
   border-bottom: .05rem solid #e5e5e5;
 }
 /* Make the masthead heading the same height as the navigation */
-.header h3 {
+header h3 {
   margin-top: 0;
   margin-bottom: 0;
   line-height: 3rem;
@@ -52,6 +57,3 @@ body {
   font-size: 1.5rem;
 }
 
-.alert-hidden {
-  display: none;
-}
