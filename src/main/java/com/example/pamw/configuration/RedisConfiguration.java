@@ -1,5 +1,6 @@
 package com.example.pamw.configuration;
 
+import com.example.pamw.entity.Parcel;
 import com.example.pamw.entity.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +19,11 @@ public class RedisConfiguration {
     }
 
     @Bean
-    RedisTemplate<String, User> redisTemplate() {
-        RedisTemplate<String, User> redisTemplate = new RedisTemplate<>();
+    RedisTemplate<?, ?> redisTemplateUser() {
+        RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         return redisTemplate;
     }
+
 
 }

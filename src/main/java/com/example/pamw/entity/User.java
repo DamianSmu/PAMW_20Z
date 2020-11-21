@@ -7,13 +7,16 @@ import org.springframework.data.redis.core.index.Indexed;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RedisHash("User")
 public class User implements Serializable {
 
     @Id
+    @Indexed
     private String id;
     @NotNull
     private String firstName;
@@ -31,6 +34,8 @@ public class User implements Serializable {
     private String address;
 
     private Set<RoleEnum> roles = new HashSet<>();
+
+    private List<Parcel> parcels = new ArrayList<>();
 
     public User(String firstName, String lastName, String username, String email, String password, String address) {
         this.firstName = firstName;
@@ -113,5 +118,13 @@ public class User implements Serializable {
 
     public void setRoles(Set<RoleEnum> roles) {
         this.roles = roles;
+    }
+
+    public List<Parcel> getParcels() {
+        return parcels;
+    }
+
+    public void setParcels(List<Parcel> parcels) {
+        this.parcels = parcels;
     }
 }
