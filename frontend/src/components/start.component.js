@@ -5,7 +5,6 @@ export default class Start extends Component {
         super(props);
 
         this.state = {
-            content: ""
         };
     }
 
@@ -14,9 +13,9 @@ export default class Start extends Component {
                 <div className="jumbotron">
                     <h1 className="display-3">Paczkopol</h1>
                     <p className="lead">Paczkopol to ciekawy system do obsługi paczek.</p>
-                    <p><a className="btn btn-lg btn-success" href="sign-up.html" role="button">Zarejestruj się za
+                    <a className="btn btn-lg btn-success" href="/signup" role="button">Zarejestruj się za
                         darmo!</a>
-                    </p>
+                    
                 </div>
         );
     }

@@ -1,25 +1,40 @@
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const API_URL = "http://localhost:8080/api/auth/";
 
 class AuthService {
     login(username, password) {
-        return axios
-            .post(API_URL + "signin", {
-                username,
-                password
-            })
-            .then(response => {
-                if (response.data.accessToken) {
-                    localStorage.setItem("user", JSON.stringify(response.data));
-                }
+        //axios.defaults.withCredentials = true;
 
-                return response.data;
-            });
+        return axios.post(API_URL + "signin", {
+            username,
+            password
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+        }).then(response => {
+            if (response.data) {
+                localStorage.setItem("user", JSON.stringify(response.data));
+            }
+
+            return response.data;
+        });
+    
     }
 
     logout() {
-        localStorage.removeItem("user");
+        window.localStorage.removeItem('user')
+        return axios.get(API_URL + "logout", {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+        }).then(response => {
+                return response.data.message;
+        });
     }
 
     register(firstname, lastname, username, email, password, address) {
@@ -35,6 +50,17 @@ class AuthService {
 
     getCurrentUser() {
         return JSON.parse(localStorage.getItem('user'));;
+    }
+
+    getPack() {
+        return axios.get("http://localhost:8080/api/pack/test", {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+        }).then(response => {
+            return response.data;
+        });
     }
 }
 

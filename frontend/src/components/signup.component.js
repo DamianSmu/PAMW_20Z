@@ -20,7 +20,7 @@ const required = value => {
 const email = value => {
     if (!isEmail(value)) {
         return (
-            <div className="text-danger"  role="alert">
+            <div className="text-danger" role="alert">
                 Niepoprawny adres email.
             </div>
         );
@@ -31,7 +31,7 @@ const vusername = value => {
     var re = /[a-z]{3,12}/g
     if (!re.exec(value)) {
         return (
-            <div className="text-danger"  role="alert">
+            <div className="text-danger" role="alert">
                 Nazwa użytkownika musi zawierać od 3 do 12 małych liter.
             </div>
         );
@@ -40,16 +40,16 @@ const vusername = value => {
 
 const vusernameAvailable = value => {
     var response = userService.getLoginAvailability(value);
-    if (response == "taken") {
+    if (response === "taken") {
         return (
-            <div className="text-danger"  role="alert">
+            <div className="text-danger" role="alert">
                 Użytkownik o podanej nazwie istnieje już w bazie.
             </div>
         );
     }
-    if (response == "error") {
+    if (response === "error") {
         return (
-            <div className="text-danger"  role="alert">
+            <div className="text-danger" role="alert">
                 Błąd serwera.
             </div>
         );
@@ -60,7 +60,7 @@ const vname = value => {
     var re = /[A-Z{ĄĆĘŁŃÓŚŹŻ}][a-z{ąćęłńóśźż}]+/g
     if (!re.exec(value)) {
         return (
-            <div className="text-danger"  role="alert">
+            <div className="text-danger" role="alert">
                 Wpisz poprawne dane.
             </div>
         );
@@ -70,7 +70,7 @@ const vname = value => {
 const vpassword = value => {
     if (value.length < 8) {
         return (
-            <div className="text-danger"  role="alert">
+            <div className="text-danger" role="alert">
                 Hasło musi zawierać co najmniej 8 znaków.
             </div>
         );
@@ -80,7 +80,7 @@ const vpassword = value => {
 const vrepassword = (value, props, components) => {
     if (value !== components['password'][0].value) {
         return (
-            <div className="text-danger"  role="alert">
+            <div className="text-danger" role="alert">
                 Hasła nie są takie same.
             </div>
         );
@@ -108,8 +108,14 @@ export default class Register extends Component {
             repassword: "",
             adress: "",
             successful: false,
-            message: ""
+            message: "",
+            loading: false
         };
+
+        console.log(document.cookie)
+        console.log(AuthService.getPack());
+        
+  
     }
 
     onChangeFirstName(e) {
@@ -159,8 +165,12 @@ export default class Register extends Component {
 
         this.setState({
             message: "",
-            successful: false
+            successful: false,
+            loading: true
         });
+
+        console.log(document.cookie)
+        console.log(AuthService.getPack());
 
         this.form.validateAll();
 
@@ -176,7 +186,8 @@ export default class Register extends Component {
                 response => {
                     this.setState({
                         message: response.data.message,
-                        successful: true
+                        successful: true,
+                        loading: false
                     });
                 },
                 error => {
@@ -189,11 +200,15 @@ export default class Register extends Component {
 
                     this.setState({
                         successful: false,
-                        message: resMessage
+                        message: resMessage,
+                        loading: false
                     });
                 }
             );
         }
+        this.setState({
+            loading: false
+        });
     }
 
     render() {
@@ -201,7 +216,7 @@ export default class Register extends Component {
             <div className="container content">
                 <div className="row justify-content-lg-center">
                     <div className="col-6">
-                        <Form
+                        {!this.state.successful && (<Form
                             onSubmit={this.handleRegister}
                             ref={c => {
                                 this.form = c;
@@ -293,7 +308,15 @@ export default class Register extends Component {
                                     </div>
 
                                     <div className="form-group">
-                                        <button className="btn btn-primary btn-block">Zarejestruj!</button>
+                                        <button
+                                            className="btn btn-primary btn-block"
+                                            disabled={this.state.loading}
+                                        >
+                                            {this.state.loading && (
+                                                <span className="spinner-border spinner-border-sm"></span>
+                                            )}
+                                            <span>Zarejestruj</span>
+                                        </button>
                                     </div>
                                 </div>
                             )}
@@ -319,6 +342,7 @@ export default class Register extends Component {
                                 }}
                             />
                         </Form>
+                        )}
                     </div>
                 </div>
             </div>

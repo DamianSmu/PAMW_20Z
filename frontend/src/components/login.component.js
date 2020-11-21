@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
 
 import AuthService from "../services/auth.service";
 
@@ -57,12 +56,14 @@ export default class Login extends Component {
                 window.location.reload();
             },
             error => {
-                const resMessage =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
+                var resMessage = ""
+                if (error.response.status === 401) { 
+                    resMessage = "Nieprawidłowa nazwa użytkownika lub hasło." 
+                }
+                else {
+                    resMessage = (error.response && error.response.data && error.response.data.message) || error.message ||
+                        error.toString();
+                }
 
                 this.setState({
                     loading: false,

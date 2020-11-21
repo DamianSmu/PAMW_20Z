@@ -9,6 +9,7 @@ import Dashboard from "./components/dashboard.component";
 import Start from "./components/start.component";
 import HeaderComponent from "./components/header.component";
 import FooterComponent from "./components/footer.component";
+import Logout from "./components/logout.component";
 
 class App extends Component {
   render() {
@@ -21,6 +22,7 @@ class App extends Component {
                 <Route path = "/login" component = {Login}/>
                 <Route path = "/dashboard" component = {Dashboard}/>
                 <Route path = "/signup" component = {Signup}/>
+                <Route path = "/logout" component = {Logout}/>
               </Switch>
             <FooterComponent />
           </Router>

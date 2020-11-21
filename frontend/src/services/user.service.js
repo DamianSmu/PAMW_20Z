@@ -1,5 +1,5 @@
 import axios from 'axios';
-import authHeader from './auth-header';
+//import authHeader from './auth-header';
 
 const API_URL = 'http://localhost:8080/api/user/';
 
@@ -18,10 +18,9 @@ class UserService {
 
     getLoginAvailability(value){
         return axios.get(API_URL + 'check/' + value).then(response => {
-            if(response.status != 200){
+            if(response.status !== 200){
                 return "error";
             } else{
-                console.log(response.data.message)
                 return response.data.message;
             }
                 
