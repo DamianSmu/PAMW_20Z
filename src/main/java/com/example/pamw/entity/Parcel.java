@@ -1,8 +1,6 @@
 package com.example.pamw.entity;
 
 import nonapi.io.github.classgraph.json.Id;
-import org.springframework.data.redis.core.RedisHash;
-import org.springframework.data.redis.core.index.Indexed;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;

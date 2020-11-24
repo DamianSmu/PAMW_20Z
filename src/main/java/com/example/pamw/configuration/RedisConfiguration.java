@@ -1,7 +1,5 @@
 package com.example.pamw.configuration;
 
-import com.example.pamw.entity.Parcel;
-import com.example.pamw.entity.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
@@ -14,8 +12,7 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 public class RedisConfiguration {
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
-
-        return new LettuceConnectionFactory(new RedisStandaloneConfiguration("localhost", 6379));
+        return new LettuceConnectionFactory(new RedisStandaloneConfiguration("redis", 6379));
     }
 
     @Bean

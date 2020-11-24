@@ -79,7 +79,7 @@ export default class Login extends Component {
             <div className="container content">
                 <div className="row justify-content-lg-center">
                     <div className="col-6">
-                        <Form className
+                        <Form
                             onSubmit={this.handleLogin}
                             ref={c => {
                                 this.form = c;

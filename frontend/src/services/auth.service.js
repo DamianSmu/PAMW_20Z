@@ -52,14 +52,16 @@ class AuthService {
         return JSON.parse(localStorage.getItem('user'));;
     }
 
-    getPack() {
-        return axios.get("http://localhost:8080/api/pack/test", {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            withCredentials: true
-        }).then(response => {
-            return response.data;
+    
+
+    getLoginAvailability(value){
+        return axios.get(API_URL + 'check/' + value).then(response => {
+            if(response.status !== 200){
+                return "error";
+            } else{
+                return response.data.message;
+            }
+                
         });
     }
 }

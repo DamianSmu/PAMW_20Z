@@ -57,33 +57,23 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-
         Cookie authCookie = new Cookie("authToken", jwt);
         authCookie.setMaxAge(7 * 24 * 60 * 60);
         authCookie.setDomain("localhost");
         authCookie.setPath("/api/");
         //authCookie.setSecure(true);
-        //authCookie.setHttpOnly(true);
+        authCookie.setHttpOnly(true);
         response.addCookie(authCookie);
-
 
         return ResponseEntity.ok(new LoginResponse(userDetails.getUsername(), userDetails.getEmail(), roles));
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (userRepository.findByUsername(signUpRequest.getUsername()).isPresent())
-        {
+        if (userRepository.findByUsername(signUpRequest.getUsername()).isPresent()) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
-        }
-
-        if (userRepository.findByEmail(signUpRequest.getEmail()).isPresent())
-        {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+                    .body(new MessageResponse("Użytkownik o podanej nazwie istnieje już w bazie."));
         }
 
         User user = new User(
@@ -94,44 +84,44 @@ public class AuthController {
                 encoder.encode(signUpRequest.getPassword()),
                 signUpRequest.getAddress()
         );
-
         Set<String> strRoles = signUpRequest.getRoles();
         Set<RoleEnum> roles = new HashSet<>();
 
         if (strRoles == null) {
             roles.add(RoleEnum.USER);
-        } else
-        {
+        } else {
             strRoles.forEach(role -> {
-                switch (role)
-                {
+                switch (role) {
                     case "admin":
                         roles.add(RoleEnum.ADMIN);
                         break;
                     case "user":
                         roles.add(RoleEnum.USER);
                         break;
-
                 }
             });
         }
-
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new MessageResponse("Użytkownik zarejestrowany pomyślnie!"));
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<?> logout( HttpServletResponse response, HttpServletRequest request) {
+    public ResponseEntity<?> logout(HttpServletResponse response, HttpServletRequest request) {
         Cookie authCookie = new Cookie("authToken", null);
         authCookie.setMaxAge(0);
         authCookie.setDomain("localhost");
         authCookie.setPath("/api/");
         //authCookie.setSecure(true);
-        //authCookie.setHttpOnly(true);
+        authCookie.setHttpOnly(true);
         response.addCookie(authCookie);
-
         return ResponseEntity.ok(new MessageResponse("Logout successful"));
+    }
+
+    @GetMapping("/check/{login}")
+    public ResponseEntity<?> checkLoginAvailability(@PathVariable("login") String login) {
+        String response = userRepository.findByUsername(login).isPresent() ? "taken" : "free";
+        return ResponseEntity.ok(new MessageResponse(response));
     }
 }

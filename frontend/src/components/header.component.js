@@ -25,6 +25,7 @@ class HeaderComponent extends Component {
                             {!isUserLoggedIn && <Nav.Link href="/signup">Zarejestruj</Nav.Link>}
                             {!isUserLoggedIn && <Nav.Link href="/login">Zaloguj</Nav.Link>}
                             {isUserLoggedIn && <Nav.Link href="/logout">Wyloguj</Nav.Link>}
+                            {isUserLoggedIn && <Nav.Link href="/dashboard">Przesyłki</Nav.Link>}
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

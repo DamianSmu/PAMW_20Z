@@ -5,7 +5,6 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
 import AuthService from "../services/auth.service";
-import userService from "../services/user.service";
 
 const required = value => {
     if (!value) {
@@ -39,7 +38,7 @@ const vusername = value => {
 };
 
 const vusernameAvailable = value => {
-    var response = userService.getLoginAvailability(value);
+    var response = AuthService.getLoginAvailability(value);
     if (response === "taken") {
         return (
             <div className="text-danger" role="alert">
@@ -112,10 +111,7 @@ export default class Register extends Component {
             loading: false
         };
 
-        console.log(document.cookie)
-        console.log(AuthService.getPack());
-        
-  
+
     }
 
     onChangeFirstName(e) {
@@ -168,9 +164,6 @@ export default class Register extends Component {
             successful: false,
             loading: true
         });
-
-        console.log(document.cookie)
-        console.log(AuthService.getPack());
 
         this.form.validateAll();
 
@@ -320,21 +313,6 @@ export default class Register extends Component {
                                     </div>
                                 </div>
                             )}
-
-                            {this.state.message && (
-                                <div className="form-group">
-                                    <div
-                                        className={
-                                            this.state.successful
-                                                ? "alert alert-success"
-                                                : "alert alert-danger"
-                                        }
-                                        role="alert"
-                                    >
-                                        {this.state.message}
-                                    </div>
-                                </div>
-                            )}
                             <CheckButton
                                 style={{ display: "none" }}
                                 ref={c => {
@@ -342,6 +320,20 @@ export default class Register extends Component {
                                 }}
                             />
                         </Form>
+                        )}
+                        {this.state.message && (
+                            <div className="form-group">
+                                <div
+                                    className={
+                                        this.state.successful
+                                            ? "alert alert-success"
+                                            : "alert alert-danger"
+                                    }
+                                    role="alert"
+                                >
+                                    {this.state.message}
+                                </div>
+                            </div>
                         )}
                     </div>
                 </div>
