@@ -13,24 +13,52 @@ services:
     ports:
       - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
+    depends_on:
+      - db
     networks: # Networks to join (Services on the same network can communicate with each other using their name)
       - backend
       - frontend
-    env_file: .env
+    environment:
+      PORT: 8080
+      MYSQL_HOST: db
+      SPRING_DATASOURCE_USERNAME: springuser
+      SPRING_DATASOURCE_PASSWORD: ThePassword
+    env_file:
+      - .env
 
 
   # Frontend Service 
   app-client:
     build:
-      context: ./frontend # Use an image built from the specified dockerfile in the `polling-app-client` directory.
+      context: ../pamw-client-react # Use an image built from the specified dockerfile in the `polling-app-client` directory.
       dockerfile: Dockerfile
     ports:
-      - "9090:80" # Map the exposed port 80 on the container to port 9090 on the host machine
+      - "9090:9090" # Map the exposed port 80 on the container to port 9090 on the host machine
     restart: always
     depends_on:
       - app-server
     networks:
       - frontend
+
+
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: ThePassword
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - backend
+
+volumes:
+  db-data:
+
 
 # Networks to be created to facilitate communication between containers
 networks:
