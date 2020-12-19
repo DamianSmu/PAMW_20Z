@@ -7,23 +7,20 @@ class Logout extends Component {
         super(props)
 
         this.state = {
-            resp: false,
             removed: false,
             redirect: false
         }
     }
     componentDidMount() {
-        authService.logout().then(response => {
-            if (response === "Logout successful" && !this.resp) {
+        authService.logout()
+        if (window.localStorage.getItem('user') == null) {
             this.setState({
                 removed: true,
-                resp: true
             });
-        }});
+        }
         this.id = setTimeout(() => this.setState({ redirect: true }), 5000)
     }
     render() {
-        
         return (
             <div className="container content">
                 {this.state.removed &&

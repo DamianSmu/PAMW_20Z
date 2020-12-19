@@ -71,7 +71,7 @@ export default class Login extends Component {
                 });
             }
         );
-
+       
     }
 
     render() {
@@ -98,9 +98,7 @@ export default class Login extends Component {
                                     onChange={this.onChangeUsername}
                                     validations={[required]}
                                 />
-
                             </div>
-
                             <div className="form-group">
                                 <label htmlFor="password">Hasło</label>
                                 <Input
@@ -111,9 +109,7 @@ export default class Login extends Component {
                                     onChange={this.onChangePassword}
                                     validations={[required]}
                                 />
-
                             </div>
-
                             <div className="form-group">
                                 <button
                                     className="btn btn-primary btn-block"
@@ -125,7 +121,6 @@ export default class Login extends Component {
                                     <span>Zaloguj</span>
                                 </button>
                             </div>
-
                             {this.state.message && (
                                 <div className="form-group">
                                     <div className="alert alert-danger" role="alert">

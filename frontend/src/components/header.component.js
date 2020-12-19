@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Nav, Navbar } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom';
+import authService from '../services/auth.service';
 
 class HeaderComponent extends Component {
     constructor(props) {
@@ -11,10 +12,7 @@ class HeaderComponent extends Component {
     }
 
     render() {
-        var isUserLoggedIn = true;
-        if (localStorage.getItem('user') == null) {
-            isUserLoggedIn = false;
-        }
+        var isUserLoggedIn = authService.isUserLoggedIn();
         return (
             <header>
                 <Navbar bg="light" expand="lg">

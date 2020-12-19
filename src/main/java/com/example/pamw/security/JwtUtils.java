@@ -3,6 +3,7 @@ package com.example.pamw.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.TextCodec;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +12,9 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    private final String jwtSecret = "ProjektPAMWDamianSmugorzewski";
+    @Value("${jwt_secret}")
+    private String jwtSecret;
+
     private final int jwtExpirationMs = 7 * 24 * 60 * 60;
 
     public String generateJwtToken(Authentication authentication) {

@@ -1,31 +1,27 @@
 package com.example.pamw.entity;
 
 import com.example.pamw.security.RoleEnum;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
-import org.springframework.data.redis.core.index.Indexed;
+import org.hibernate.annotations.Cascade;
 
+
+import javax.persistence.*;
+
+import javax.persistence.CascadeType;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-@RedisHash("User")
+@Entity
 public class User implements Serializable {
 
     @Id
-    @Indexed
-    private String id;
+    private String id = UUID.randomUUID().toString();
     @NotNull
     private String firstName;
     @NotNull
     private String lastName;
-    @Indexed
     @NotNull
     private String username;
-    @Indexed
     @NotNull
     private String email;
     @NotNull
@@ -33,8 +29,14 @@ public class User implements Serializable {
     @NotNull
     private String address;
 
+    @ElementCollection(targetClass=RoleEnum.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name="user_roles")
+    @Column(name="role")
     private Set<RoleEnum> roles = new HashSet<>();
 
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sender", fetch = FetchType.LAZY)
     private List<Parcel> parcels = new ArrayList<>();
 
     public User(String firstName, String lastName, String username, String email, String password, String address) {
@@ -127,4 +129,5 @@ public class User implements Serializable {
     public void setParcels(List<Parcel> parcels) {
         this.parcels = parcels;
     }
+
 }

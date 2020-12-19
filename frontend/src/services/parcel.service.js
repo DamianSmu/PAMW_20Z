@@ -1,30 +1,23 @@
 import axios from 'axios';
+import authHeader from '../auth-header';
 
 
-const API_URL = 'http://localhost:8080/api/parcel/';
+const API_URL = process.env.API_BASE_URL + "parcel/";
 
 class ParcelService {
 
     getAll() {
-        return axios.get(API_URL + "all", {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            withCredentials: true
+        return axios.get(API_URL + "getAllByAuthenticated", {
+            headers: authHeader()
         }).then(response => {
             return response.data;
         });
     }
 
-
-
     deleteParcel(id) {
         return axios.delete(API_URL + id,
             {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                withCredentials: true
+                headers: authHeader()
             }).then(response => {
                 return response.data;
             });
@@ -36,10 +29,7 @@ class ParcelService {
             postOffice,
             size
         }, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            withCredentials: true
+            headers: authHeader()
         }).then(response => {
             return response.data;
         });

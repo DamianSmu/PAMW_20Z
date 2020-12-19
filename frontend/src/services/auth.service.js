@@ -1,20 +1,15 @@
 import axios from "axios";
+import jwt from 'jsonwebtoken';
 axios.defaults.withCredentials = true;
 
-const API_URL = "http://localhost:8080/api/auth/";
+const API_URL = process.env.API_BASE_URL + "auth/";
 
 class AuthService {
     login(username, password) {
-        //axios.defaults.withCredentials = true;
 
         return axios.post(API_URL + "signin", {
             username,
             password
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            withCredentials: true
         }).then(response => {
             if (response.data) {
                 localStorage.setItem("user", JSON.stringify(response.data));
@@ -27,14 +22,6 @@ class AuthService {
 
     logout() {
         window.localStorage.removeItem('user')
-        return axios.get(API_URL + "logout", {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            withCredentials: true
-        }).then(response => {
-                return response.data.message;
-        });
     }
 
     register(firstname, lastname, username, email, password, address) {
@@ -52,8 +39,6 @@ class AuthService {
         return JSON.parse(localStorage.getItem('user'));;
     }
 
-    
-
     getLoginAvailability(value){
         return axios.get(API_URL + 'check/' + value).then(response => {
             if(response.status !== 200){
@@ -63,6 +48,20 @@ class AuthService {
             }
                 
         });
+    }
+
+    isUserLoggedIn(){
+        var isUserLoggedIn = false;
+        const userData = JSON.parse(localStorage.getItem('user'));
+        if(userData !== null){
+            const token = userData.accessToken;
+            var decodedToken=jwt.decode(token, {complete: true});
+            var dateNow = new Date();
+            if(decodedToken.payload.exp > (dateNow.getTime() / 1000)){
+                isUserLoggedIn = true;
+            }
+        }
+        return isUserLoggedIn;
     }
 }
 

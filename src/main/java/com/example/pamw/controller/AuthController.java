@@ -45,7 +45,7 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response, HttpServletRequest request) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -57,15 +57,11 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        Cookie authCookie = new Cookie("authToken", jwt);
-        authCookie.setMaxAge(7 * 24 * 60 * 60);
-        authCookie.setDomain("localhost");
-        authCookie.setPath("/api/");
-        //authCookie.setSecure(true);
-        authCookie.setHttpOnly(true);
-        response.addCookie(authCookie);
-
-        return ResponseEntity.ok(new LoginResponse(userDetails.getUsername(), userDetails.getEmail(), roles));
+        return ResponseEntity.ok(new LoginResponse(jwt,
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                roles));
     }
 
     @PostMapping("/signup")
@@ -105,18 +101,6 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("Użytkownik zarejestrowany pomyślnie!"));
-    }
-
-    @GetMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletResponse response, HttpServletRequest request) {
-        Cookie authCookie = new Cookie("authToken", null);
-        authCookie.setMaxAge(0);
-        authCookie.setDomain("localhost");
-        authCookie.setPath("/api/");
-        //authCookie.setSecure(true);
-        authCookie.setHttpOnly(true);
-        response.addCookie(authCookie);
-        return ResponseEntity.ok(new MessageResponse("Logout successful"));
     }
 
     @GetMapping("/check/{login}")

@@ -10,13 +10,10 @@ COPY . /app
 RUN npm run build
 
 
-ARG REACT_APP_API_BASE_URL
-ENV REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}
-
 # production environment
 FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d
-EXPOSE 80
+EXPOSE $PORT
 CMD ["nginx", "-g", "daemon off;"]
