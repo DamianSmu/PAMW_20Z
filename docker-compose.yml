@@ -26,7 +26,6 @@ services:
     env_file:
       - .env
 
-
   # Frontend Service 
   app-client:
     build:
@@ -39,7 +38,6 @@ services:
       - app-server
     networks:
       - frontend
-
 
   db:
     image: mysql:5.7
@@ -58,7 +56,6 @@ services:
 
 volumes:
   db-data:
-
 
 # Networks to be created to facilitate communication between containers
 networks:

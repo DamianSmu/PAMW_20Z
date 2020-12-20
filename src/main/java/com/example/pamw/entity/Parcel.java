@@ -29,7 +29,7 @@ public class Parcel implements Serializable {
     private ParcelStatusEnum status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     @JsonIgnore
     private User sender;
 

@@ -1,4 +1,5 @@
 package com.example.pamw.payload.response;
+
 import java.util.List;
 
 public class LoginResponse {
@@ -7,7 +8,7 @@ public class LoginResponse {
     private String id;
     private String username;
     private String email;
-    private List<String> roles;
+    private final List<String> roles;
 
     public LoginResponse(String accessToken, String id, String username, String email, List<String> roles) {
         this.token = accessToken;

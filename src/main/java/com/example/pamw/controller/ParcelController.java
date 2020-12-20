@@ -5,21 +5,18 @@ import com.example.pamw.entity.ParcelStatusEnum;
 import com.example.pamw.entity.User;
 import com.example.pamw.payload.request.ParcelRequest;
 import com.example.pamw.payload.request.UpdateParcelStatusRequest;
-import com.example.pamw.payload.response.MessageResponse;
 import com.example.pamw.repository.ParcelRepository;
 import com.example.pamw.repository.UserRepository;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -75,10 +72,10 @@ public class ParcelController {
     public ResponseEntity<?> deleteParcel(Authentication authentication, @PathVariable String id) {
         String username = authentication.getName();
         Parcel parcel = parcelRepository.findById(id).get();
-        if(!parcel.getSenderName().equals(username)){
+        if (!parcel.getSenderName().equals(username)) {
             return ResponseEntity.badRequest().body("Parcel does not belong to authenticated user.");
         }
-        if(!parcel.getStatus().equals(ParcelStatusEnum.CREATED)){
+        if (!parcel.getStatus().equals(ParcelStatusEnum.CREATED)) {
             return ResponseEntity.badRequest().body("Cannot delete parcel with status other than CREATED");
         }
         parcelRepository.deleteById(id);

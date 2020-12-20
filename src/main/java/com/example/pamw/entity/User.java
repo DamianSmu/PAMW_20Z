@@ -1,12 +1,8 @@
 package com.example.pamw.entity;
 
 import com.example.pamw.security.RoleEnum;
-import org.hibernate.annotations.Cascade;
-
 
 import javax.persistence.*;
-
-import javax.persistence.CascadeType;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.*;
@@ -29,10 +25,10 @@ public class User implements Serializable {
     @NotNull
     private String address;
 
-    @ElementCollection(targetClass=RoleEnum.class)
+    @ElementCollection(targetClass = RoleEnum.class)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name="user_roles")
-    @Column(name="role")
+    @CollectionTable(name = "user_roles")
+    @Column(name = "role")
     private Set<RoleEnum> roles = new HashSet<>();
 
 

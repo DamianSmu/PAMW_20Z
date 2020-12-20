@@ -30,7 +30,7 @@ public class PamwApplication extends SpringBootServletInitializer {
     CommandLineRunner initDatabase(UserRepository userRepository, PasswordEncoder encoder) {
 
         return args -> {
-            if(!userRepository.findByUsername("kurier").isPresent()){
+            if (!userRepository.findByUsername("kurier").isPresent()) {
                 User user = new User(
                         "Imiekuriera",
                         "Nazwiskokuriera",
