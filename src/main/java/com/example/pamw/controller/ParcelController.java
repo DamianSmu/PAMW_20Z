@@ -53,7 +53,7 @@ public class ParcelController {
                         linkTo(methodOn(ParcelController.class).getAllByAuthenticated(authentication)).withSelfRel()));
     }
 
-    @PreAuthorize("hasAuthority('COURIER')")
+    //@PreAuthorize("hasAuthority('COURIER')")
     @GetMapping(path = "/", produces = "application/hal+json")
     @ResponseBody
     public ResponseEntity<?> getAll(Authentication authentication) {
@@ -113,7 +113,7 @@ public class ParcelController {
         }
     }
 
-    @PreAuthorize("hasAuthority('COURIER')")
+    //@PreAuthorize("hasAuthority('COURIER')")
     @PatchMapping(path = "/{id}", produces = "application/hal+json")
     @ResponseBody
     public ResponseEntity<?> updateParcelStatus(Authentication authentication, @RequestBody UpdateParcelStatusRequest request, @PathVariable String id) {
