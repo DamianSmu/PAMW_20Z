@@ -3,12 +3,12 @@ package com.example.pamw.payload.response;
 import java.util.List;
 
 public class LoginResponse {
+    private final List<String> roles;
     private String token;
     private String type = "Bearer";
     private String id;
     private String username;
     private String email;
-    private final List<String> roles;
 
     public LoginResponse(String accessToken, String id, String username, String email, List<String> roles) {
         this.token = accessToken;

@@ -7,6 +7,7 @@ import com.example.pamw.payload.request.ParcelRequest;
 import com.example.pamw.payload.request.UpdateParcelStatusRequest;
 import com.example.pamw.repository.ParcelRepository;
 import com.example.pamw.repository.UserRepository;
+import com.example.pamw.service.SocketService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -30,10 +31,12 @@ public class ParcelController {
 
     private final UserRepository userRepository;
     private final ParcelRepository parcelRepository;
+    private final SocketService socketService;
 
-    public ParcelController(UserRepository userRepository, ParcelRepository parcelRepository) {
+    public ParcelController(UserRepository userRepository, ParcelRepository parcelRepository, SocketService socketService) {
         this.userRepository = userRepository;
         this.parcelRepository = parcelRepository;
+        this.socketService = socketService;
     }
 
     @GetMapping(path = "/getAllByAuthenticated", produces = "application/hal+json")
@@ -53,7 +56,7 @@ public class ParcelController {
                         linkTo(methodOn(ParcelController.class).getAllByAuthenticated(authentication)).withSelfRel()));
     }
 
-    //@PreAuthorize("hasAuthority('COURIER')")
+    @PreAuthorize("hasAuthority('COURIER')")
     @GetMapping(path = "/", produces = "application/hal+json")
     @ResponseBody
     public ResponseEntity<?> getAll(Authentication authentication) {
@@ -72,10 +75,12 @@ public class ParcelController {
     public ResponseEntity<?> deleteParcel(Authentication authentication, @PathVariable String id) {
         String username = authentication.getName();
         Parcel parcel = parcelRepository.findById(id).get();
-        if (!parcel.getSenderName().equals(username)) {
+        if (!parcel.getSenderName().equals(username))
+        {
             return ResponseEntity.badRequest().body("Parcel does not belong to authenticated user.");
         }
-        if (!parcel.getStatus().equals(ParcelStatusEnum.CREATED)) {
+        if (!parcel.getStatus().equals(ParcelStatusEnum.CREATED))
+        {
             return ResponseEntity.badRequest().body("Cannot delete parcel with status other than CREATED");
         }
         parcelRepository.deleteById(id);
@@ -99,7 +104,8 @@ public class ParcelController {
         String username = authentication.getName();
         User sender = userRepository.findByUsername(username).get();
         Parcel parcel = new Parcel(parcelRequest.getReceiver(), parcelRequest.getPostOffice(), parcelRequest.getSize(), sender);
-        try {
+        try
+        {
             Parcel savedParcel = parcelRepository.save(parcel);
 
             EntityModel<Parcel> employeeResource = EntityModel.of(savedParcel,
@@ -108,34 +114,41 @@ public class ParcelController {
             return ResponseEntity
                     .created(new URI(employeeResource.getRequiredLink(IanaLinkRelations.SELF).getHref()))
                     .body(employeeResource);
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException e)
+        {
             return ResponseEntity.badRequest().body("Unable to create " + parcel);
         }
     }
 
-    //@PreAuthorize("hasAuthority('COURIER')")
+    @PreAuthorize("hasAuthority('COURIER')")
     @PatchMapping(path = "/{id}", produces = "application/hal+json")
     @ResponseBody
     public ResponseEntity<?> updateParcelStatus(Authentication authentication, @RequestBody UpdateParcelStatusRequest request, @PathVariable String id) {
         ParcelStatusEnum statusEnum;
-        try {
+        try
+        {
             statusEnum = ParcelStatusEnum.valueOf(request.getStatus());
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e)
+        {
             return ResponseEntity.badRequest().body("Invalid status");
         }
         Parcel parcel = parcelRepository.findById(id).get();
+        ParcelStatusEnum oldStatus = parcel.getStatus();
         parcel.setStatus(statusEnum);
-        try {
+        try
+        {
             Parcel savedParcel = parcelRepository.save(parcel);
             EntityModel<Parcel> employeeResource = EntityModel.of(savedParcel,
                     linkTo(methodOn(ParcelController.class).getOne(authentication, savedParcel.getId())).withSelfRel());
-
+            String message = "Przesyłka o numerze: " + parcel.getId() + " zmieniła status z " + ParcelStatusEnum.getName(oldStatus)
+                    + " na " + ParcelStatusEnum.getName(savedParcel.getStatus());
+            socketService.sendMessage(savedParcel.getSenderName(), message);
             return ResponseEntity
                     .created(new URI(employeeResource.getRequiredLink(IanaLinkRelations.SELF).getHref()))
                     .body(employeeResource);
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException e)
+        {
             return ResponseEntity.badRequest().body("Unable to update " + parcel);
         }
-
     }
 }

@@ -12,17 +12,13 @@ public class User implements Serializable {
 
     @Id
     private String id = UUID.randomUUID().toString();
-    @NotNull
     private String firstName;
-    @NotNull
     private String lastName;
     @NotNull
     private String username;
     @NotNull
     private String email;
-    @NotNull
     private String password;
-    @NotNull
     private String address;
 
     @ElementCollection(targetClass = RoleEnum.class)
@@ -48,6 +44,12 @@ public class User implements Serializable {
         this.username = username;
         this.password = password;
         this.email = email;
+    }
+
+    public User(String username, String email) {
+        this.username = username;
+        this.email = email;
+        this.password = UUID.randomUUID().toString();
     }
 
     public User() {

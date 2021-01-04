@@ -62,7 +62,8 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (userRepository.findByUsername(signUpRequest.getUsername()).isPresent()) {
+        if (userRepository.findByUsername(signUpRequest.getUsername()).isPresent())
+        {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Użytkownik o podanej nazwie istnieje już w bazie."));
@@ -79,11 +80,14 @@ public class AuthController {
         Set<String> strRoles = signUpRequest.getRoles();
         Set<RoleEnum> roles = new HashSet<>();
 
-        if (strRoles == null) {
+        if (strRoles == null)
+        {
             roles.add(RoleEnum.USER);
-        } else {
+        } else
+        {
             strRoles.forEach(role -> {
-                switch (role) {
+                switch (role)
+                {
                     case "admin":
                         roles.add(RoleEnum.ADMIN);
                         break;
