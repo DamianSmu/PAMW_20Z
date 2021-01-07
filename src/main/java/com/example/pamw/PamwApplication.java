@@ -46,6 +46,22 @@ public class PamwApplication extends SpringBootServletInitializer {
                 user.setRoles(roles);
                 userRepository.save(user);
             }
+            if (!userRepository.findByUsername("auth0|5ff78683428e2a0071d740b6").isPresent())
+            {
+                User user = new User(
+                        "ImiekurieraAuth0",
+                        "NazwiskokurieraAuth0",
+                        "auth0|5ff78683428e2a0071d740b6",
+                        "email@email.com",
+                        encoder.encode("KurierAuth0NieMaSwojegoHasła"),
+                        "adres"
+                );
+                Set<RoleEnum> roles = new HashSet<>();
+                roles.add(RoleEnum.COURIER);
+                roles.add(RoleEnum.USER);
+                user.setRoles(roles);
+                userRepository.save(user);
+            }
         };
     }
 }
